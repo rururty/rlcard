@@ -14,9 +14,9 @@ class MahjongEnv(Env):
         self.name = 'mahjong'
         self.game = Game()
         super().__init__(config)
-        self.action_id = card_encoding_dict
-        self.de_action_id = {self.action_id[key]: key for key in self.action_id.keys()}
-        self.state_shape = [[6, 34, 4] for _ in range(self.num_players)]
+        self.action_id = card_encoding_dict # { bamboo-1: 0, bamboo-2: 1, ...}
+        self.de_action_id = {self.action_id[key]: key for key in self.action_id.keys()} # { 0: bamboo-1, 1: bamboo-2, ...}
+        self.state_shape = [[6, 34, 4] for _ in range(self.num_players)] # [[ , 34张牌, 4副牌] for each player]
         self.action_shape = [None for _ in range(self.num_players)]
 
     def _extract_state(self, state):
@@ -32,8 +32,11 @@ class MahjongEnv(Env):
                              the recent three actions
                              the union of all played cards
         '''
+        # 其他玩家的牌组，是一个字典，key是玩家的id，value是牌组
         players_pile = state['players_pile']
+        # 当前玩家的手牌数值化表示，用（34，4）表示，34表示牌的种类，4表示每种牌的数量
         hand_rep = encode_cards(state['current_hand'])
+        # 其他玩家的手牌数值化表示，（4，34，4）表示，4个玩家，34表示牌的种类，4表示每种牌的数量
         piles_rep = []
         for p in players_pile.keys():
             piles_rep.append(encode_cards(pile2list(players_pile[p])))

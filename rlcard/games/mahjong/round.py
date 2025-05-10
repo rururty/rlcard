@@ -22,7 +22,7 @@ class MahjongRound:
         self.player_before_act = 0
         self.prev_status = None
         self.valid_act = False
-        self.last_cards = []
+        self.last_cards = []   
 
     def proceed_round(self, players, action):
         ''' Call other Classes's functions to keep one round running
@@ -41,7 +41,7 @@ class MahjongRound:
                 self.last_cards = cards
                 self.last_player = self.current_player
                 self.current_player = player.player_id
-            else:
+            else: 
                 self.last_player = self.current_player
                 self.current_player = (self.player_before_act + 1) % 4
                 self.dealer.deal_cards(players[self.current_player], 1)
@@ -81,6 +81,7 @@ class MahjongRound:
         #pile_len = [sum([len([c for c in p]) for p in pp.pile]) for pp in players]
         #total_len = [i + j for i, j in zip(hand_len, pile_len)]
 
+    # 获取玩家的状态
     def get_state(self, players, player_id):
         ''' Get player's state
 

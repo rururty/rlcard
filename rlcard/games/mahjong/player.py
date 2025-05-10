@@ -1,5 +1,5 @@
 
-class MahjongPlayer:
+class  MahjongPlayer:
 
     def __init__(self, player_id, np_random):
         ''' Initilize a player.
@@ -9,7 +9,9 @@ class MahjongPlayer:
         '''
         self.np_random = np_random
         self.player_id = player_id
+        # 玩家可以打出的牌
         self.hand = []
+        # 已经凑出来的牌
         self.pile = []
 
     def get_player_id(self):

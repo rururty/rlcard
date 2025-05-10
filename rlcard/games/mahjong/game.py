@@ -27,12 +27,17 @@ class MahjongGame:
                 (int): Current player's id
         '''
         # Initialize a dealer that can deal cards
+        # 提供发牌功能的dealer，桌上信息，牌堆信息
         self.dealer = Dealer(self.np_random)
 
         # Initialize four players to play the game
+        # player类提供玩家id，手牌hand，打出的成组的牌pile
         self.players = [Player(i, self.np_random) for i in range(self.num_players)]
 
+        # 初始化一个judger来判断游戏的状态，没有自带的信息，仅提供方法
         self.judger = Judger(self.np_random)
+        # round是一个回合类，负责游戏的进行
+        # round类负责游戏的进行，判断游戏的状态，判断游戏是否结束
         self.round = Round(self.judger, self.dealer, self.num_players, self.np_random)
 
         # Deal 13 cards to each player to prepare for the game
@@ -42,6 +47,7 @@ class MahjongGame:
         # Save the hisory for stepping back to the last state.
         self.history = []
 
+        # 当前玩家多发一张牌
         self.dealer.deal_cards(self.players[self.round.current_player], 1)
         state = self.get_state(self.round.current_player)
         self.cur_state = state
@@ -66,7 +72,7 @@ class MahjongGame:
             hist_players = deepcopy(self.players)
             self.history.append((hist_dealer, hist_players, hist_round))
         self.round.proceed_round(self.players, action)
-        state = self.get_state(self.round.current_player)
+        state = self.get_state(self.round.current_player) 
         self.cur_state = state
         return state, self.round.current_player
 
